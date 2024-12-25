@@ -1,11 +1,17 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+import pyodbc
 import os
+from sqlalchemy import create_engine
 
 def create_app(test_config=None):
+    db = SQLAlchemy()
+    username = 'sa'
+    password = 'funky-penguin-cafe-train8'
+    engine = create_engine("mssql+pyodbc://sa:funky-penguin-cafe-train8@localhost:1433/vbstat")
     app = Flask(__name__)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        SECRET_KEY='dev'
     )
 
     if test_config is None:
@@ -20,6 +26,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    
 
     @app.route("/")
     def hello_world():

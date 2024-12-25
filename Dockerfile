@@ -7,7 +7,8 @@ FROM ubuntu:24.04 AS builder
 
 RUN apt-get update && apt-get install -y \
     python3 \
-    python3-venv
+    python3-venv \
+    unixodbc
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -26,9 +27,9 @@ EXPOSE 5000
 # # verifies the right Node.js version is in the environment
 # RUN node -v # should print `v20.18.0`
 
-# # verifies the right npm version is in the environment
+# # verifies the right npm version is in" the environment
 # RUN npm -v # should print `10.8.2`
 
 # COPY --from=builder /app /app
 
-CMD [ "/bin/sh" ]
+CMD [ "python", "run.py" ]
